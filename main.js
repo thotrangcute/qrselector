@@ -1508,7 +1508,7 @@ Freelancer.on("click", function (e) {
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img class="first-imaeges" src="/img/freelan-3.png" />
+      <img class="first-imaeges" src="/qrselector/img/freelan-3.png" />
     </div>
     <div class="listimg-content">
       Promoting products, services on Flyers, Brochures
