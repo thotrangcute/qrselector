@@ -98,14 +98,14 @@ items.forEach((item) => {
           const value = input.value.trim();
           const errorDiv = input.parentElement.querySelector(".error-input");
           const aceImg = document.querySelector(".ace-images");
-          if (aceImg) aceImg.src = "img/qr to.png";
+          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
           if (value === "") {
             event.preventDefault();
             errorDiv.textContent = "Please enter your URL !";
           } else {
             errorDiv.textContent = "";
             const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/img/qr to đen.png";
+            if (aceImg) aceImg.src = "/qrselector/img/qr to đen.png";
           }
         }
       });
@@ -237,11 +237,11 @@ aechoaquyen.forEach((item) => {
             event.preventDefault();
             errorDiv.textContent = "Please enter your Facebook !";
             const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "img/qr to.png";
+            if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
           } else {
             errorDiv.textContent = "";
             const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/img/qr to đen.png";
+            if (aceImg) aceImg.src = "/qrselector/img/qr to đen.png";
           }
           return;
         }
@@ -930,12 +930,12 @@ aceoneVcard.forEach((item) => {
             errorDiv.textContent = "Please enter your  !";
             errorSection.textContent = "Please enter your  !";
             const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "img/qr to.png";
+            if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
           } else {
             errorDiv.textContent = "";
             errorSection.textContent = "";
             const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "img/qrVcard.png";
+            if (aceImg) aceImg.src = "/qrselector/img/qrVcard.png";
           }
         }
       });
@@ -1216,7 +1216,7 @@ const saboWrite = document.querySelectorAll(".sabo-write");
 saboWrite.forEach(function (element) {
   element.addEventListener("click", function () {
     const aceImg = document.querySelector(".ace-images");
-    if (aceImg) aceImg.src = "img/qr to.png";
+    if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
   });
 });
 /* Frequently Asked Questions */
@@ -1326,35 +1326,35 @@ business.on("click", function (e) {
   imangecontent.html(`
      <div class="contentnis" >
           <div class="imgsection-listimg">
-            <img src="/img/end-1.png" />
+            <img src="/qrselector/img/end-1.png" />
             <p class="listimg-content">Online shopping</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-2.png" />
+            <img src="/qrselector/img/end-2.png" />
             <p class="listimg-content">Online ordering</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-3.png" />
+            <img src="/qrselector/img/end-3.png" />
             <p class="listimg-content">Accessing product info</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-4.png" />
+            <img src="/qrselector/img/end-4.png" />
             <p class="listimg-content">Connecting social media</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-5.png" />
+            <img src="/qrselector/img/end-5.png" />
             <p class="listimg-content">Doing payment</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-6.png" />
+            <img src="/qrselector/img/end-6.png" />
             <p class="listimg-content">Connecting WiFi</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-7.png" />
+            <img src="/qrselector/img/end-7.png" />
             <p class="listimg-content">Sharing feedback</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/img/end-8.png" />
+            <img src="/qrselector/img/end-8.png" />
             <p class="listimg-content">Downloading the app</p>
           </div>
         </div>
@@ -1423,15 +1423,15 @@ margketting.on("click", function (e) {
     <div class="contentnis">
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/img/marketting-1.png" />
-      <img src="/img/marketting-.png" />
+      <img src="/qrselector/img/marketting-1.png" />
+      <img src="/qrselector/img/marketting-.png" />
     </div>
     <div class="listimg-content">Promoting sales, events on Posters</div>
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img  src="/img/markettin-3.png" />
-      <img src="/img/marketting-4.png" />
+      <img  src="/qrselector/img/markettin-3.png" />
+      <img src="/qrselector/img/marketting-4.png" />
     </div>
     <div class="listimg-content">
       Promoting products, services on Flyers, Brochures
@@ -1439,8 +1439,8 @@ margketting.on("click", function (e) {
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/img/marketing-5.png" />
-      <img src="/img/markrtting06.png" />
+      <img src="/qrselector/img/marketing-5.png" />
+      <img src="/qrselector/img/markrtting06.png" />
     </div>
     <div class="listimg-content">Promoting services on Sandwich boards</div>
    < /div>
@@ -1502,8 +1502,8 @@ Freelancer.on("click", function (e) {
     <div class="contentnis">
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/img/freelan-1.png" />
-      <img src="/img/freelan-2.png" />
+      <img src="/qrselector/img/freelan-1.png" />
+      <img src="/qrselector/img/freelan-2.png" />
     </div>
   </div>
   <div class="content-first">
@@ -1516,8 +1516,8 @@ Freelancer.on("click", function (e) {
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/img/freelan-4.png" />
-      <img src="/img/freelan-5.png" />
+      <img src="/qrselector/img/freelan-4.png" />
+      <img src="/qrselector/img/freelan-5.png" />
     </div>
     <div class="listimg-content">Promoting services on Sandwich boards</div>
   </div>
