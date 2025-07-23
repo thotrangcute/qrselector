@@ -1180,6 +1180,13 @@ iframe {
   .baslide-content {
     height: 215px;
   }
+  .twomore-contain img {
+    width: 25px;
+    height: 25px;
+  }
+  .twomore-contain p {
+    font-size: 12px;
+  }
   .bonpeborcontentone-vocuc img {
     height: 50px;
   }
@@ -1260,7 +1267,7 @@ iframe {
     display: contents;
   }
   .color-box {
-    width: 30%;
+    width: 35%;
   }
   .boxertion {
     width: 100%;
