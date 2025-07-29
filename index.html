@@ -57,7 +57,7 @@
         <div class="threemore-thefirst">
           <div class="threemore-firstone">
             <div class="firstone-contentner sabothammuu">
-              <p class="contentner-write">URL</p>
+              <p class="contentner-write urlcontentner">URL</p>
             </div>
             <div class="firstone-contentner acehoaquyen">
               <p class="contentner-write facebook">FACEBOOK</p>
@@ -99,7 +99,7 @@
                   >
                     Enter content
                   </div>
-                  <p class="onemore-iconmomen">&#8744;</p>
+                  <p class="onemore-iconmomen">&#8743;</p>
                   <div class="lop-phu"></div>
                 </div>
 
@@ -141,7 +141,7 @@
 
                   <div class="color-options">
                     <div class="color-box">
-                      <input type="text" id="color1" />
+                      <input type="color" id="color1" value="#000000" />
                       <input type="text" id="colorText1" value="#000000" />
                     </div>
 
@@ -149,11 +149,11 @@
                       id="gradientControls"
                       style="display: flex; align-items: center; gap: 5px"
                     >
-                      <div class="swap-icon" onclick="swapColors()">
+                      <div class="swap-icon">
                         <img src="/qrselector/img/chuyenhuown.png" />
                       </div>
                       <div class="color-box">
-                        <input type="text" id="color2" />
+                        <input type="color" id="color2" value="#00B55D" />
                         <input type="text" id="colorText2" value="#00B55D" />
                       </div>
 
@@ -162,10 +162,14 @@
                           Radial Gradient &#8744;
                         </div>
                         <div class="dropdown-options" id="optionsList">
-                          <div data-value="Linear gradient">
+                          <div data-value="Linear gradient" id="gradiention">
                             Linear gradient
                           </div>
-                          <div data-value="Radial Gradient" class="active">
+                          <div
+                            data-value="Radial Gradient"
+                            id="gradiention"
+                            class="active"
+                          >
                             Radial Gradient
                           </div>
                         </div>
@@ -223,7 +227,9 @@
                     <div class="addlogoanh-upload"></div>
                     <div class="addlogoanh-write">
                       <div class="addlogoanh-iconer" id="openFileTrigger">
-                        <span class="glyphicon glyphicon-open"></span>
+                        <span
+                          class="glyphicon glyphicon-open glycozoicon"
+                        ></span>
                         <p class="">Upload</p>
                       </div>
                       <input type="file" id="fileInput" />
@@ -286,14 +292,17 @@
                     <div class="titleone-logonen">
                       <img
                         class="logonen-image"
+                        id="designimage1"
                         src="/qrselector/img/déign1.png"
                       />
                       <img
                         class="logonen-image"
+                        id="designimage2"
                         src="/qrselector/img/design2.png"
                       />
                       <img
                         class="logonen-image"
+                        id="designimage3"
                         src="/qrselector/img/design3.png"
                       />
                     </div>
@@ -304,11 +313,13 @@
                     </div>
                     <div class="titletwo-logonen">
                       <img
-                        class="logonen-image"
+                        class="logonen-imagesion"
+                        id="imagesion4"
                         src="/qrselector/img/design4.png"
                       />
                       <img
-                        class="logonen-image"
+                        class="logonen-imagesion"
+                        id="imagesion5"
                         src="/qrselector/img/design5.png"
                       />
                     </div>
@@ -317,9 +328,50 @@
               </div>
               <div class="contentier-two">
                 <div class="contentier-ace">
-                  <img class="ace-images" src="/qrselector/img/qr to.png" />
+                  <img class="ace-images" src="/qrselector/img/qrto.png" />
                   <div class="overlaydis" id="overlaydis">
-                    <img id="overlaydiver" src="/qrselector/img/qr to.png" />
+                    <div class="overlayoutra" id="overlayoutra">
+                      <p class="">X</p>
+                    </div>
+                    <div class="overlaition">
+                      <img id="overlaydiver" src="/qrselector/img/qr to.png" />
+                    </div>
+                    <div class="overdoimoi">
+                      <div
+                        class="overdoimoi-text ocerdoichung"
+                        id="overdoimoiupdowwn"
+                      >
+                        &#10606;
+                      </div>
+                      <div
+                        class="overdoimoi-text ocerdoichung"
+                        id="overdoileftright"
+                      >
+                        &#8651;
+                      </div>
+                      <div
+                        class="overdoimoi-img ocerdoichung"
+                        id="overdoixoayright"
+                      >
+                        <img src="qrselector/img/hoandoi1.png" />
+                      </div>
+                      <div
+                        class="overdoimoi-img ocerdoichung"
+                        id="overdoixoaylefft"
+                      >
+                        <img src="qrselector/img/hoandoi2.png" />
+                      </div>
+                      <div class="ocerdoichung" id="overdoimoigiam">
+                        <span
+                          class="glyphicon glyphicon-zoom-out ocerdoichung"
+                        ></span>
+                      </div>
+                      <div class="ocerdoichung" id="overdoimoitanng">
+                        <span
+                          class="glyphicon glyphicon-zoom-in ocerdoichung"
+                        ></span>
+                      </div>
+                    </div>
                   </div>
                   <div class="contentier-hooover">
                     <p class="hoover-write">
@@ -350,7 +402,7 @@
                           <div class="dot"></div>
                         </div>
                         <div class="current-value" id="sliderValue">
-                          560 x 560 px
+                          448 x 448 px
                         </div>
                       </div>
                       <div class="slider-labels">
@@ -363,7 +415,18 @@
                 </div>
                 <div class="contentier-boa">
                   <p class="boa-QRcode">Create Qr code</p>
-                  <p class="boa-Dowload">Dowload &#8744;</p>
+                  <div class="boa-Dowload">
+                    Dowload &#8744;
+                    <div class="download-options" style="display: none">
+                      <p class="onetimePng">PNG</p>
+                      <p class="onetimePng">JPG</p>
+                      <p class="onetimePng">SVG</p>
+                      <p class="onetimePng">PDF</p>
+                    </div>
+                    <div id="downloadMessage">
+                      ✅ Bạn đã tải ảnh thành công!
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -552,8 +615,7 @@
                 </p>
                 <p class="">
                   Step 2: Fill all the details: Enter all the information we
-                  require that appears. Then, select “Generate.” Step 3:
-                  Download
+                  require that appears. Then, select “Generate.”
                 </p>
                 <p class="">Step 3: Download your QR Code.</p>
               </div>

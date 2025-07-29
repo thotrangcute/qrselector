@@ -1,29 +1,3 @@
-/*const slider = document.getElementById("qualitySlider");
-const output = document.getElementById("sliderValue");
-
-const minRes = 64;
-const maxRes = 1024;
-const steps = 20;
-
-function updateSliderValue(value) {
-  const resolution = Math.round(
-    minRes + ((value - 1) * (maxRes - minRes)) / steps
-  );
-  output.textContent = `${resolution} x ${resolution} px`;
-
-  const percent = ((value - slider.min) / (slider.max - slider.min)) * 100;
-  output.style.left = `calc(${percent}% )`;
-  output.style.transform = "translateX(-50%)";
-
-  slider.style.background = `linear-gradient(to right, #3399ff 0%, #3399ff ${percent}%, #cce5ff ${percent}%, #cce5ff 100%)`;
-}
-
-slider.addEventListener("input", function () {
-  updateSliderValue(this.value);
-});
-
-updateSliderValue(slider.value);
-*/
 const minRes = 64;
 const maxRes = 1024;
 const steps = 20;
@@ -59,198 +33,185 @@ $(document).ready(function () {
   });
 
   updateSliderValue(parseInt(slider.val()));
+  console.log(slider);
 });
-
 /* url*/
 
 const items = document.querySelectorAll(".sabothammuu");
-const contentMore = document.querySelectorAll(".contentier-onemore");
 const listDiv = document.getElementById("contentierList");
+const contentOne = document.getElementById("conternierOne");
+const contentmore = document.querySelectorAll(".contentier-onemore");
+
+const defaultContent = `
+<div class="content">
+<p class="content-write">URL</p>
+    <input class="content-input" type="text" placeholder="https://dingdong.io/" />
+    <div class="error-input input-error"></div>
+    </div>
+    `;
+
+listDiv.style.display = "block";
+listDiv.innerHTML = defaultContent;
+attachInputEvent();
+
+if (contentmore.length > 0) {
+  contentmore[0].classList.add("active");
+}
+
+if (contentmore) {
+  contentmore.forEach(function (item) {
+    item.addEventListener("click", function (e) {
+      document.querySelectorAll(".contentier-onemore").forEach((el) => {
+        el.classList.remove("active");
+
+        this.classList.add("active");
+
+        e.stopPropagation();
+      });
+    });
+  });
+  console.log(contentmore);
+}
+
 items.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
-  });
-});
-
-contentMore.forEach(function (item) {
-  item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
-  });
-});
-
-items.forEach((item) => {
-  item.addEventListener("click", () => {
-    listDiv.innerHTML = `
-      <div class="content">
-        <p class="content-write">URL</p>
-        <input class="content-input"  type="text" placeholder="https://dingdong.io/"/>
-        <div class="error-input input-error"></div>
-      </div>
-    `;
-    const inputs = document.querySelectorAll(".content-input");
-    inputs.forEach((input) => {
-      input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          const value = input.value.trim();
-          const errorDiv = input.parentElement.querySelector(".error-input");
-          const aceImg = document.querySelector(".ace-images");
-          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.textContent = "Please enter your URL !";
-          } else {
-            errorDiv.textContent = "";
-            const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/qrselector/img/qr to đen.png";
-          }
-        }
-      });
+    const isVisible = listDiv.style.display === "block";
+    items.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8743;";
     });
-    console.log(items);
-    console.log(errorDiv);
-  });
-});
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
 
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
+    listDiv.style.display = "block";
+    listDiv.innerHTML = defaultContent;
 
-  $(".sabothammuu, .contentier-onemore").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
     e.stopPropagation();
   });
+  console.log(items);
+});
 
-  $(".sabothammuu").click(function () {
-    $listDiv.html(`
-      <div class="content">
-        <p class="content-write">URL</p>
-        <input class="content-input" type="text" placeholder="https://dingdong.io/"/>
-        <div class="error-input input-error"></div>
-      </div>
-    `);
+function attachInputEvent() {
+  const input = document.querySelector(".content-input");
+  const aceImg = document.querySelector(".ace-images");
+  const colorRadio = document.getElementById("gradientColorRadio");
+  const imageCheckbox = document.getElementById("customEyeCheckbox");
 
-    $(".content-input").on("keydown", function (event) {
-      if (event.key === "Enter") {
-        const $input = $(this);
-        const value = $input.val().trim();
-        const $errorDiv = $input.siblings(".error-input");
-        const $aceImg = $(".ace-images");
+  if (!input) return;
 
-        if ($aceImg.length) {
-          $aceImg.attr("src", "img/qr to.png");
-        }
+  input.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter") return;
 
-        if (value === "") {
-          event.preventDefault();
-          $errorDiv.text("Please enter your URL !");
+    event.preventDefault();
+
+    const value = input.value.trim();
+    const errorDiv = input.parentElement?.querySelector(".error-input");
+
+    if (!value) {
+      if (errorDiv) errorDiv.textContent = "Please enter your URL!";
+      if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+    } else {
+      if (errorDiv) errorDiv.textContent = "";
+
+      if (aceImg) {
+        if (
+          colorRadio &&
+          colorRadio.checked &&
+          imageCheckbox &&
+          imageCheckbox.checked
+        ) {
+          aceImg.src = "/qrselector/img/urlchec2.png";
+        } else if (colorRadio && colorRadio.checked) {
+          aceImg.src = "/qrselector/img/urlcheck1.png";
+        } else if (imageCheckbox && imageCheckbox.checked) {
+          aceImg.src = "/qrselector/img/urlchec3.png";
         } else {
-          $errorDiv.text("");
-          if ($aceImg.length) {
-            $aceImg.attr("src", "/img/qr to đen.png");
-          }
+          aceImg.src = "/qrselector/img/qr to đen.png";
         }
       }
-    });
+    }
   });
-});
-*/
-/* fb*/
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
-  $(".acehoaquyen").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
-    e.stopPropagation();
-
-    $(".acehoaquyen").click(function () {
-      $listDiv.html(`
-       <div class="contentiton">
-        <p class="content-write"> Your Facebook URL</p>
-        <input class="content-input" type="text" placeholder="https://Facebook.com/"/>
-        <div class="error-input input-error"></div>
-      </div>
-
-      `);
-      $(".content-input").on("keydown", function (event) {
-        if (event.key === "Enter") {
-          const $input = $(this);
-          const value = $input.val().trim();
-          const $errorDiv = $input.siblings(".error-input");
-          const $aceImg = $(".ace-images");
-
-          if ($aceImg.length) {
-            $aceImg.attr("src", "img/qr to.png");
-          }
-
-          if (value === "") {
-            event.preventDefault();
-            $errorDiv.text("Please enter your Facebook !");
-          } else {
-            $errorDiv.text("");
-            if ($aceImg.length) {
-              $aceImg.attr("src", "/img/qr to đen.png");
-            }
-          }
-        }
-      });
-    });
-  });
-});
-*/
+}
 
 const aechoaquyen = document.querySelectorAll(".acehoaquyen");
-
-aechoaquyen.forEach(function (item) {
+const listDivion = document.getElementById("contentierList");
+contentmore.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8743;" : "&#8744;";
   });
+  console.log(contentmore);
 });
-
 aechoaquyen.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="contentiton">
         <p class="content-write"> Your Facebook URL</p>
         <input class="content-input" type="text" placeholder="https://Facebook.com/"/>
         <div class="error-input input-error"></div>
       </div>
     `;
-    const inputs = document.querySelectorAll(".content-input");
-    inputs.forEach((input) => {
-      input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          const value = input.value.trim();
-          const errorDiv = input.parentElement.querySelector(".error-input");
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.textContent = "Please enter your Facebook !";
-            const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
-          } else {
-            errorDiv.textContent = "";
-            const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/qrselector/img/qr to đen.png";
+    const inputs = document.querySelector(".content-input");
+    const aceImg = document.querySelector(".ace-images");
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+
+    if (!inputs) return;
+
+    inputs.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const value = inputs.value.trim();
+        const errorDiv = inputs.parentElement.querySelector(".error-input");
+
+        if (!value) {
+          if (errorDiv) errorDiv.textContent = "Please enter your FACEBOOK!";
+          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+        } else {
+          if (errorDiv) errorDiv.textContent = "";
+
+          if (aceImg) {
+            if (
+              colorRadio &&
+              colorRadio.checked &&
+              imageCheckbox &&
+              imageCheckbox.checked
+            ) {
+              aceImg.src = "/qrselector/img/urlchec2.png";
+            } else if (colorRadio && colorRadio.checked) {
+              aceImg.src = "/qrselector/img/urlcheck1.png";
+            } else if (imageCheckbox && imageCheckbox.checked) {
+              aceImg.src = "/qrselector/img/urlchec3.png";
+            } else {
+              aceImg.src = "/qrselector/img/qr to đen.png";
+            }
           }
-          return;
         }
-      });
+      }
     });
+  });
+});
+console.log(aechoaquyen);
+
+aechoaquyen.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    aechoaquyen.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+
+    listDivion.style.display = "block";
   });
   console.log(aechoaquyen);
 });
-
 /* text */
 /*
 $(document).ready(function () {
@@ -278,15 +239,33 @@ $(document).ready(function () {
 const aecfiveText = document.querySelectorAll(".aecfiveText");
 aecfiveText.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
-  });
-});
+    const isVisible = listDivion.style.display === "block";
+    aecfiveText.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
 
+    listDivion.style.display = "block";
+  });
+  console.log(aecfiveText);
+});
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+  console.log(contentmore);
+});
 aecfiveText.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
     <div class="content">
     <p class="content-write"> Your text URL</p>
     <textarea class="content-inputertion" type="text" placeholder="Enter your text here..."></textarea>
@@ -352,15 +331,33 @@ const aeconeEmail = document.querySelectorAll(".aeconeEmail");
 
 aeconeEmail.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
-  });
-});
+    const isVisible = listDivion.style.display === "block";
+    aeconeEmail.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
 
+    listDivion.style.display = "block";
+  });
+  console.log(aeconeEmail);
+});
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+  console.log(contentmore);
+});
 aeconeEmail.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="content">
        <p class="content-pier">Your Email</p>
         <input class="content-className" type="text" placeholder="dhfakf@outlook.com"/>
@@ -441,15 +438,34 @@ const aceonephone = document.querySelectorAll(".aceonephone");
 
 aceonephone.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
+    const isVisible = listDivion.style.display === "block";
+    aceonephone.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+
+    listDivion.style.display = "block";
   });
+  console.log(aceonephone);
+});
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+  console.log(contentmore);
 });
 
 aceonephone.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="content">
         <p class="content-write">Your phone number</p>
         <input class="content-input" type="number" placeholder="03942346934"/>
@@ -476,74 +492,37 @@ aceonephone.forEach((item) => {
 });
 
 /*location*/
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
-  $(".locationcontent").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
-    e.stopPropagation();
-    $(".locationcontent").click(function () {
-      $listDiv.html(`
-     <div class="content">
-      <div class="section-luffy">
-       <p class="sectionluffy-write">information
-       How to get latitude & longitude of a location from Google Maps?</p>
-      </div>
-      <div class="section-more">
-      <div class="sectionnis-one">
-       <p class="sectionnis-write"> Latitude</p>
-       <input class="content-classfontinput classfontinput" type="text" placeholder="enter your subject"/>
-        <div class="error-input inputcontentnersion"></div>
-      </div>
-      <div class="sectionnis-one">
-       <p class="sectionnis-write">
-         Longitude</p>
-       <input class="content-classfontinput classfontinput" type="text" placeholder="enter your subject"/>
-        <div class="error-input inputcontentnersion"></div>
-      </div>
-     </div>
-     <div class="section-moretime">
-     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m2!2m1!1zYmFuaMO0IGNow6FuaCB0aMOqIHRo4bqldCBnaWFwIHRyw6pu!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-     </iframe>
-     </div>
-    </div>
-     `);
-      $(".classfontinput").on("keydown", function (event) {
-        if (event.key === "Enter") {
-          const input = $(this);
-          const value = input.val().trim();
-          const errorDiv = input.parent().find(".inputcontentnersion");
-
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.text("Please enter your!");
-          } else {
-            errorDiv.text("");
-          }
-        }
-      });
-    });
-  });
-});
-*/
 
 const locationcontent = document.querySelectorAll(".locationcontent");
 locationcontent.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
+    const isVisible = listDivion.style.display === "block";
+    locationcontent.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+
+    listDivion.style.display = "block";
   });
+  console.log(locationcontent);
+});
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+  console.log(contentmore);
 });
 locationcontent.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
     <div class="content">
      <div class="section-luffy">
        <p class="sectionluffy-write">information
@@ -589,123 +568,44 @@ Longitude</p>
           }
         }
       });
+      console.log(inputs);
     });
   });
+  console.log(locationcontent);
 });
 
 /* wifi */
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
-  $(".aceoneWifi").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
-    e.stopPropagation();
-    $(".aceoneWifi").click(function () {
-      $listDiv.html(`
-     <div class="contention">
-      <div class="content-nice">
-        <p class="content-write">Wireless SSID</p>
-        <input class="content-input oversuper" type="text" placeholder="Enter your wireless SSID"/>
-        <div class="error-input input-error"></div>
-      </div>
-      <div class="content-nice">
-        <p class="content-write">Password</p>
-        <input class="content-input sivertines" type="text" placeholder="Enter your password"/>
-        <div class="error-luffyconsection"></div>
-      </div>
-      <div class="content-nice">
-        <p class="content-writesection">
-         Encryption</p>
-        <input class="content-inputsection" type="text" placeholder="WPA"/>
-        <div class="producttion">
-          <p class="production-section">       WPA</p>
-          <p class="production-section">       WPA2</p>
-        </div>
-      </div>
-      </div>
-        `);
-      const $ssidInput = $(".oversuper");
-      const $passwordInput = $(".sivertines");
-
-      if ($ssidInput.length) {
-        $ssidInput.on("keydown", function (event) {
-          if (event.key === "Enter") {
-            const value = $ssidInput.val().trim();
-            const $errorDiv = $ssidInput.parent().find(".error-input");
-            if (value === "") {
-              event.preventDefault();
-              $errorDiv.text("Please enter your SSID!");
-            } else {
-              $errorDiv.text("");
-            }
-          }
-        });
-      }
-
-      if ($passwordInput.length) {
-        $passwordInput.on("keydown", function (event) {
-          if (event.key === "Enter") {
-            const value = $passwordInput.val().trim();
-            const $errorDiv = $passwordInput
-              .parent()
-              .find(".error-luffyconsection");
-            if (value === "") {
-              event.preventDefault();
-              $errorDiv.text("Please enter your password!");
-            } else {
-              $errorDiv.text("");
-            }
-          }
-        });
-      }
-
-      const $input = $(".content-inputsection");
-      const $options = $(".producttion");
-      const $optionItems = $(".producttion p");
-
-      $input.on("click", function (e) {
-        $options.show();
-      });
-
-      $optionItems.on("click", function () {
-        $input.val($(this).text().trim());
-        $options.hide();
-      });
-
-      $(document).on("click", function (e) {
-        if (
-          !$(e.target).closest(".content-inputsection, .producttion").length
-        ) {
-          $options.hide();
-        }
-      });
-
-      const $productionSections = $(".production-section");
-
-      $productionSections.on("click", function () {
-        $productionSections.removeClass("active");
-        $(this).addClass("active");
-      });
-    });
-  });
-});
-*/
 
 const aceoneWifi = document.querySelectorAll(".aceoneWifi");
 aceoneWifi.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
-  });
-});
+    const isVisible = listDivion.style.display === "block";
+    aceoneWifi.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
 
+    listDivion.style.display = "block";
+  });
+  console.log(aceoneWifi);
+});
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+  console.log(contentmore);
+});
 aceoneWifi.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="contention">
       <div class="content-nice">
         <p class="content-write">Wireless SSID</p>
@@ -718,8 +618,7 @@ aceoneWifi.forEach((item) => {
         <div class="error-luffyconsection"></div>
       </div>
       <div class="content-nice">
-        <p class="content-writesection">
-Encryption</p>
+        <p class="content-writesection">Encryption</p>
         <input class="content-inputsection" type="text" placeholder="WPA"/>
         <div class="producttion">
           <p class="production-section">       WPA</p>
@@ -743,6 +642,7 @@ Encryption</p>
             errorDiv.textContent = "";
           }
         }
+        console.log(ssidInput);
       });
     }
     if (passwordInput) {
@@ -789,94 +689,35 @@ Encryption</p>
 });
 
 /* vcard*/
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
-  $(".aceoneVcard").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
-    e.stopPropagation();
-    $(".aceoneVcard").click(function () {
-      $listDiv.html(`
-         <div class="contention">
-      <div class="content-nice">
-        <p class="content-write">First name</p>
-        <input class="content-input inputertion sectioncontent" type="text" placeholder=""/>
-        <div class="error-input input-error"></div>
-        <p class="content-write">Email</p>
-        <input class="content-input inputertion sectionlist" type="text" placeholder=""/>
-        <div class="input-errorsion"></div>
-        <p class="content-britenter">Fax</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-        <p class="content-britenter">Your job</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-        <p class="content-britenter">Street</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-        <p class="content-britenter">Zip</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-        <p class="content-britenter">Country</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-      </div>
-      <div class="content-nice">
-        <p class="content-write">Last name</p>
-        <input class="content-input inputertion sectioncontent" type="text" placeholder=""/>
-        <div class="error-input input-error"></div>
-         <p class="content-write">Phone</p>
-        <input class="content-input inputertion sectionlist" type="text" placeholder=""/>
-        <div class="input-errorsion"></div>
-         <p class="content-britenter">Birthday</p>
-        <input class="content-input inputertion" type="date" placeholder=""/>
-         <p class="content-britenter">Company</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-         <p class="content-britenter">City</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-         <p class="content-britenter">State</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-         <p class="content-britenter">Wedsite</p>
-        <input class="content-input inputertion" type="text" placeholder=""/>
-      </div>
-      </div>
-        `);
-      $(".sectioncontent, .sectionlist").on("keydown", function (event) {
-        if (event.key === "Enter") {
-          const input = $(this);
-          const value = input.val().trim();
-          const parent = input.parent();
 
-          const errorDiv = parent.find(".error-input");
-          const errorSection = parent.find(".input-errorsion");
-          const aceImg = $(".ace-images");
-
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.text("Please enter your  !");
-            errorSection.text("Please enter your  !");
-            if ($aceImg.length) aceImg.attr("src", "img/qr to.png");
-          } else {
-            errorDiv.text("");
-            errorSection.text("");
-            if (aceImg.length) aceImg.attr("src", "img/qrVcard.png");
-          }
-        }
-      });
-    });
-  });
-});
-*/
 const aceoneVcard = document.querySelectorAll(".aceoneVcard");
 aceoneVcard.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
+    const isVisible = listDivion.style.display === "block";
+    aceoneVcard.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+
+    listDivion.style.display = "block";
   });
 });
-
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+});
 aceoneVcard.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="contention">
       <div class="content-nice">
         <p class="content-write">First name</p>
@@ -901,7 +742,7 @@ aceoneVcard.forEach((item) => {
         <input class="content-input inputertion sectioncontent" type="text" placeholder=""/>
         <div class="error-input input-error"></div>
          <p class="content-write">Phone</p>
-        <input class="content-input inputertion sectionlist" type="text" placeholder=""/>
+        <input class="content-input inputertion sectionlistion" type="text" placeholder=""/>
         <div class="input-errorsion"></div>
          <p class="content-britenter">Birthday</p>
         <input class="content-input inputertion" type="date" placeholder=""/>
@@ -916,26 +757,56 @@ aceoneVcard.forEach((item) => {
       </div>
       </div>
     `;
-    const inputs = document.querySelectorAll(".sectioncontent, .sectionlist");
+    const inputs = document.querySelectorAll(
+      ".sectioncontent, .sectionlist,.sectionlistion"
+    );
+    const aceImg = document.querySelector(".ace-images");
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+
+    if (!inputs) return;
+
     inputs.forEach((input) => {
       input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          const value = input.value.trim();
-          const errorDiv = input.parentElement.querySelector(".error-input");
-          const errorSection =
-            input.parentElement.querySelector(".input-errorsion");
+        if (event.key !== "Enter") return;
 
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.textContent = "Please enter your  !";
-            errorSection.textContent = "Please enter your  !";
-            const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
+        event.preventDefault();
+
+        const value = input.value.trim();
+        const errorDiv = input.parentElement.querySelector(".error-input");
+        const errorSection =
+          input.parentElement.querySelector(".input-errorsion");
+
+        const isEmailField = input.id === "sectionlist";
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+        if (!value) {
+          if (errorDiv) errorDiv.textContent = "Please enter your!";
+          if (errorSection) errorSection.textContent = "Please enter your!";
+          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          return;
+        }
+
+        if (isEmailField && !isEmailValid) {
+          if (errorDiv) errorDiv.textContent = "Please enter a valid email!";
+          if (errorSection)
+            errorSection.textContent = "Please enter a valid email!";
+          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          return;
+        }
+
+        if (errorDiv) errorDiv.textContent = "";
+        if (errorSection) errorSection.textContent = "";
+
+        if (aceImg) {
+          if (colorRadio?.checked && imageCheckbox?.checked) {
+            aceImg.src = "/qrselector/img/cardcheck2.png";
+          } else if (colorRadio?.checked) {
+            aceImg.src = "/qrselector/img/cardcheck1.png";
+          } else if (imageCheckbox?.checked) {
+            aceImg.src = "/qrselector/img/cardcheck3.png";
           } else {
-            errorDiv.textContent = "";
-            errorSection.textContent = "";
-            const aceImg = document.querySelector(".ace-images");
-            if (aceImg) aceImg.src = "/qrselector/img/qrVcard.png";
+            aceImg.src = "/qrselector/img/qrVcard.png";
           }
         }
       });
@@ -944,86 +815,96 @@ aceoneVcard.forEach((item) => {
 });
 
 /* aceoneggreview*/
-/*
-$(document).ready(function () {
-  const $listDiv = $("#contentierList");
-  $(".aceoneggreview").click(function (e) {
-    $listDiv.css(
-      "display",
-      $listDiv.css("display") === "block" ? "none" : "block"
-    );
-    e.stopPropagation();
-    $(".aceoneggreview").click(function () {
-      $listDiv.html(`
-        <div class="content">
-        <p class="content-write">Enter content </p>
-        <input class="content-input" type="text" placeholder="Enter your google my business review link"/>
-        <div class="error-input input-error"></div>
-      </div>
-        `);
-      $(".content-input").on("keydown", function (event) {
-        if (event.key === "Enter") {
-          const input = $(this);
-          const value = input.val().trim();
-          const errorDiv = input.parent().find(".error-input");
 
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.text("Please enter your!");
-          } else {
-            errorDiv.text("");
-          }
-        }
-      });
-    });
-  });
-});
-*/
 const aceoneggreview = document.querySelectorAll(".aceoneggreview");
 aceoneggreview.forEach(function (item) {
   item.addEventListener("click", function (e) {
-    listDiv.style.display =
-      listDiv.style.display === "block" ? "none" : "block";
-    e.stopPropagation();
+    const isVisible = listDivion.style.display === "block";
+    aceoneggreview.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+
+    listDivion.style.display = "block";
   });
 });
-
+contentmore.forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    const isVisible = listDivion.style.display === "block";
+    contentmore.forEach((el) => {
+      const icon = el.querySelector(".onemore-iconmomen");
+      if (icon) icon.innerHTML = "&#8744;";
+    });
+    const icon = this.querySelector(".onemore-iconmomen");
+    if (icon) icon.innerHTML = isVisible ? "&#8744;" : "&#8743;";
+  });
+});
 aceoneggreview.forEach((item) => {
   item.addEventListener("click", () => {
-    listDiv.innerHTML = `
+    listDivion.innerHTML = `
       <div class="content">
         <p class="content-write">Enter content </p>
         <input class="content-input" type="text" placeholder="Enter your google my business review link"/>
         <div class="error-input input-error"></div>
       </div>
     `;
-    const inputs = document.querySelectorAll(".content-input");
-    inputs.forEach((input) => {
-      input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          const value = input.value.trim();
-          const errorDiv = input.parentElement.querySelector(".error-input");
+    const inputs = document.querySelector(".content-input");
+    const aceImg = document.querySelector(".ace-images");
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
 
-          if (value === "") {
-            event.preventDefault();
-            errorDiv.textContent =
-              "Please enter Google My Business review link!";
-          } else {
-            errorDiv.textContent = "";
+    if (!inputs) return;
+
+    inputs.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const value = inputs.value.trim();
+        const errorDiv = inputs.parentElement.querySelector(".error-input");
+
+        if (!value) {
+          if (errorDiv)
+            errorDiv.textContent = "Please enter your google review!";
+          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+        } else {
+          if (errorDiv) errorDiv.textContent = "";
+
+          if (aceImg) {
+            if (
+              colorRadio &&
+              colorRadio.checked &&
+              imageCheckbox &&
+              imageCheckbox.checked
+            ) {
+              aceImg.src = "/qrselector/img/urlchec2.png";
+            } else if (colorRadio && colorRadio.checked) {
+              aceImg.src = "/qrselector/img/urlcheck1.png";
+            } else if (imageCheckbox && imageCheckbox.checked) {
+              aceImg.src = "/qrselector/img/urlchec3.png";
+            } else {
+              aceImg.src = "/qrselector/img/qr to đen.png";
+            }
           }
         }
-      });
+      }
     });
   });
 });
+$(document).ready(function () {
+  $(".sabothammuu").each(function () {
+    const text = $(this).find(".contentner-write").text().trim();
+    if (text === "URL") {
+      $(this).addClass("active");
+    }
+  });
+});
 
-const contentItems = $(".contentner-write");
-
-contentItems.on("click", function () {
-  contentItems.removeClass("active");
+$(".contentner-write").on("click", function () {
+  $(".sabothammuu").removeClass("active");
   $(this).addClass("active");
 });
-/*
+
 const contentItems = document.querySelectorAll(".contentner-write");
 
 contentItems.forEach((item) => {
@@ -1032,8 +913,7 @@ contentItems.forEach((item) => {
     this.classList.add("active");
   });
 });
-*/
-
+/*
 const toggleBox = $("#toggleColorBox");
 const colorOptions = $("#colorOptions");
 
@@ -1044,23 +924,83 @@ toggleBox.click(function (e) {
 colorOptions.click(function (e) {
   e.stopPropagation();
 });
+*/
 /*
 const toggleBox = document.getElementById("toggleColorBox");
 const colorOptions = document.getElementById("colorOptions");
 
 toggleBox.addEventListener("click", function (e) {
-  colorOptions.style.display =
-    colorOptions.style.display === "block" ? "none" : "block";
+  const icon = toggleBox.querySelector(".onemore-iconmomen");
+
+  const isVisible = colorOptions.style.display === "block";
+  colorOptions.style.display = isVisible ? "none" : "block";
+
+  if (icon) {
+    icon.textContent = isVisible ? "∨" : "∧";
+  }
+
   e.stopPropagation();
-});
-document.addEventListener("click", function () {
-  colorOptions.style.display = "none";
 });
 
 colorOptions.addEventListener("click", function (e) {
   e.stopPropagation();
 });
+colorOptions.addEventListener("click", function () {
+  colorOptions.style.display = "none";
+  const icon = toggleBox.querySelector(".onemore-iconmomen");
+  if (icon) {
+    icon.textContent = "∨";
+  }
+});
 */
+const contertion = document.getElementById("conternierOne");
+const contentierList = document.getElementById("contentierList");
+
+contertion.addEventListener("click", function (e) {
+  const icon = contertion.querySelector(".onemore-iconmomen");
+
+  const isVisible = contentierList.style.display === "block";
+  contentierList.style.display = isVisible ? "none" : "block";
+
+  if (icon) {
+    icon.textContent = isVisible ? "∨" : "∧";
+  }
+
+  e.stopPropagation();
+});
+const toggleBox = document.getElementById("toggleColorBox");
+const colorOptions = document.getElementById("colorOptions");
+
+toggleBox.addEventListener("click", function (e) {
+  const icon = toggleBox.querySelector(".onemore-iconmomen");
+
+  const isVisible = colorOptions.style.display === "block";
+  colorOptions.style.display = isVisible ? "none" : "block";
+
+  if (icon) {
+    icon.textContent = isVisible ? "∨" : "∧";
+  }
+
+  e.stopPropagation();
+});
+
+const onemoretitle = document.getElementById("onemoretitle");
+const colortitle = document.getElementById("colortitle");
+
+onemoretitle.addEventListener("click", function (e) {
+  const icon = onemoretitle.querySelector(".onemore-iconmomen");
+
+  const isVisible = colortitle.style.display === "block";
+  colortitle.style.display = isVisible ? "none" : "block";
+
+  if (icon) {
+    icon.textContent = isVisible ? "∨" : "∧";
+  }
+
+  e.stopPropagation();
+});
+
+/*
 const onemoretitle = $("#onemoretitle");
 const colortitle = $("#colortitle");
 
@@ -1071,24 +1011,25 @@ onemoretitle.click(function (e) {
 colortitle.click(function (e) {
   e.stopPropagation();
 });
-/*
-const onemoretitle = document.getElementById("onemoretitle");
-const colortitle = document.getElementById("colortitle");
-
-onemoretitle.addEventListener("click", function (e) {
-  colortitle.style.display =
-    colortitle.style.display === "block" ? "none" : "block";
-  e.stopPropagation();
-});
-
-document.addEventListener("click", function () {
-  colortitle.style.display = "none";
-});
-
-colortitle.addEventListener("click", function (e) {
-  e.stopPropagation();
-});
 */
+
+const designcolor = document.getElementById("designcolor");
+const designContent = document.getElementById("designContent");
+
+designcolor.addEventListener("click", function (e) {
+  const icon = designcolor.querySelector(".onemore-iconmomen");
+
+  const isVisible = designContent.style.display === "block";
+  designContent.style.display = isVisible ? "none" : "block";
+
+  if (icon) {
+    icon.textContent = isVisible ? "∨" : "∧";
+  }
+
+  e.stopPropagation();
+});
+
+/*
 const designcolor = $("#designcolor");
 const designContent = $("#designContent");
 
@@ -1099,25 +1040,7 @@ designcolor.click(function (e) {
 designContent.click(function (e) {
   e.stopPropagation();
 });
-/*
-const designcolor = document.getElementById("designcolor");
-const designContent = document.getElementById("designContent");
-
-designcolor.addEventListener("click", function (e) {
-  designContent.style.display =
-    designContent.style.display === "block" ? "none" : "block";
-  e.stopPropagation();
-});
-
-document.addEventListener("click", function () {
-  designContent.style.display = "none";
-});
-
-designContent.addEventListener("click", function (e) {
-  e.stopPropagation();
-});
 */
-/* active của các thẻ content color design image*/
 const iconlogoImage = $(".iconlogo-image");
 
 iconlogoImage.click(function () {
@@ -1139,6 +1062,20 @@ logonenimage.click(function () {
   logonenimage.removeClass("active");
   $(this).addClass("active");
 });
+/*
+const logonension = $(".logonen-imagesion");
+logonension.click(function () {
+  logonension.removeClass("active");
+  $(this).addClass("active");
+});*/
+const logonension = $(".logonen-imagesion");
+if (!$(".logonen-imagesion.active").length) {
+  $(".logonen-imagesion").first().addClass("active");
+}
+logonension.click(function () {
+  logonension.removeClass("active");
+  $(this).addClass("active");
+});
 
 /*
 const logonenimage = document.querySelectorAll(".logonen-image");
@@ -1150,26 +1087,6 @@ logonenimage.forEach((item) => {
   });
 });
 */
-
-const contentieronemore = document.querySelectorAll(".contentier-onemore");
-contentieronemore.forEach((item) => {
-  item.addEventListener("click", function () {
-    if (this.classList.contains("active")) {
-      this.classList.remove("active");
-      const icon = this.querySelector(".onemore-iconmomen");
-      if (icon) icon.innerHTML = "&#8744;";
-      return;
-    }
-    contentieronemore.forEach((el) => {
-      el.classList.remove("active");
-      const icon = el.querySelector(".onemore-iconmomen");
-      if (icon) icon.innerHTML = "&#8744;";
-    });
-    this.classList.add("active");
-    const icon = this.querySelector(".onemore-iconmomen");
-    if (icon) icon.innerHTML = "&#8743;";
-  });
-});
 
 /*zoom ảnh QR code */
 
@@ -1187,11 +1104,22 @@ aceimages.click(function () {
     }
   }
 });
-
-overlaydis.click(function () {
+/*
+overlaydis.addEventListener("click", function () {
   overlaydis.css("display", "none");
 });
+*/
 
+const overlay = document.getElementById("overlaydis");
+const overlayClickArea = document.querySelector(".overlaition");
+const overlayoutra = document.querySelector(".overlayoutra");
+
+overlayClickArea.addEventListener("click", function () {
+  overlay.style.display = "none";
+});
+overlayoutra.addEventListener("click", function () {
+  overlay.style.display = "none";
+});
 /*
 const aceimages = document.querySelector(".contentier-hooover");
 const overlaydis = document.getElementById("overlaydis");
@@ -1216,7 +1144,7 @@ const saboWrite = document.querySelectorAll(".sabo-write");
 saboWrite.forEach(function (element) {
   element.addEventListener("click", function () {
     const aceImg = document.querySelector(".ace-images");
-    if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
+    if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
   });
 });
 /* Frequently Asked Questions */
@@ -1245,29 +1173,6 @@ contentBlocks.each(function () {
   }
 });
 
-/*
-const contentBlocks = document.querySelectorAll(".contentonesection-write");
-contentBlocks.forEach(function (section) {
-  var answer = section.querySelector(".productsectioner");
-  var question = section.querySelector(".contentonesection-butru");
-  var icon = section.querySelector(".contentonesection-icon");
-
-  if (answer) {
-    answer.style.display = "none";
-    if (icon) icon.innerHTML = "&#62;";
-  }
-  if (question && answer) {
-    question.addEventListener("click", function (e) {
-      const isVisible = answer.style.display === "block";
-      answer.style.display = isVisible ? "none" : "block";
-      if (icon) {
-        icon.innerHTML = isVisible ? "&#62;" : "&#8744;";
-      }
-      e.stopPropagation();
-    });
-  }
-});
-*/
 const groups = document.querySelectorAll(".image-group");
 let current = 0;
 
@@ -1326,93 +1231,41 @@ business.on("click", function (e) {
   imangecontent.html(`
      <div class="contentnis" >
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-1.png" />
+            <img src="//qrselector/img/end-1.png" />
             <p class="listimg-content">Online shopping</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-2.png" />
+            <img src="//qrselector/img/end-2.png" />
             <p class="listimg-content">Online ordering</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-3.png" />
+            <img src="//qrselector/img/end-3.png" />
             <p class="listimg-content">Accessing product info</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-4.png" />
+            <img src="//qrselector/img/end-4.png" />
             <p class="listimg-content">Connecting social media</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-5.png" />
+            <img src="//qrselector/img/end-5.png" />
             <p class="listimg-content">Doing payment</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-6.png" />
+            <img src="//qrselector/img/end-6.png" />
             <p class="listimg-content">Connecting WiFi</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-7.png" />
+            <img src="//qrselector/img/end-7.png" />
             <p class="listimg-content">Sharing feedback</p>
           </div>
           <div class="imgsection-listimg">
-            <img src="/qrselector/img/end-8.png" />
+            <img src="//qrselector/img/end-8.png" />
             <p class="listimg-content">Downloading the app</p>
           </div>
         </div>
   `);
   console.log(business);
 });
-/*
-const imangecontent = document.getElementById("imange-content");
-const business = document.querySelectorAll(".fine-dorgot");
-
-business.forEach(function (item) {
-  item.addEventListener("click", function (e) {
-    imangecontent.style.display =
-      imangecontent.style.display === "block" ? "block" : "block";
-    e.stopPropagation();
-  });
-});
-business.forEach((item) => {
-  item.addEventListener("click", () => {
-    imangecontent.innerHTML = `
-      <div class="contentnis" >
-          <div class="imgsection-listimg">
-            <img src="/img/end-1.png" />
-            <p class="listimg-content">Online shopping</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-2.png" />
-            <p class="listimg-content">Online ordering</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-3.png" />
-            <p class="listimg-content">Accessing product info</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-4.png" />
-            <p class="listimg-content">Connecting social media</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-5.png" />
-            <p class="listimg-content">Doing payment</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-6.png" />
-            <p class="listimg-content">Connecting WiFi</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-7.png" />
-            <p class="listimg-content">Sharing feedback</p>
-          </div>
-          <div class="imgsection-listimg">
-            <img src="/img/end-8.png" />
-            <p class="listimg-content">Downloading the app</p>
-          </div>
-        </div>
-    `;
-  });
-});
-*/
 
 const margketting = $(".margketting");
 
@@ -1423,15 +1276,15 @@ margketting.on("click", function (e) {
     <div class="contentnis">
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/qrselector/img/marketting-1.png" />
-      <img src="/qrselector/img/marketting-.png" />
+      <img src="//qrselector/img/marketting-1.png" />
+      <img src="//qrselector/img/marketting-.png" />
     </div>
     <div class="listimg-content">Promoting sales, events on Posters</div>
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img  src="/qrselector/img/markettin-3.png" />
-      <img src="/qrselector/img/marketting-4.png" />
+      <img  src="//qrselector/img/markettin-3.png" />
+      <img src="//qrselector/img/marketting-4.png" />
     </div>
     <div class="listimg-content">
       Promoting products, services on Flyers, Brochures
@@ -1439,8 +1292,8 @@ margketting.on("click", function (e) {
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/qrselector/img/marketing-5.png" />
-      <img src="/qrselector/img/markrtting06.png" />
+      <img src="//qrselector/img/marketing-5.png" />
+      <img src="//qrselector/img/markrtting06.png" />
     </div>
     <div class="listimg-content">Promoting services on Sandwich boards</div>
    < /div>
@@ -1450,49 +1303,6 @@ margketting.on("click", function (e) {
   console.log(margketting);
 });
 
-/*
-const margketting = document.querySelectorAll(".margketting");
-
-margketting.forEach(function (item) {
-  item.addEventListener("click", function (e) {
-    imangecontent.style.display =
-      imangecontent.style.display === "block" ? "block" : "block";
-    e.stopPropagation();
-  });
-});
-margketting.forEach((item) => {
-  item.addEventListener("click", () => {
-    imangecontent.innerHTML = `
-<div class="contentnis">
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img src="/img/marketting-1.png" />
-      <img src="/img/marketting-.png" />
-    </div>
-    <div class="listimg-content">Promoting sales, events on Posters</div>
-  </div>
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img  src="/img/markettin-3.png" />
-      <img src="/img/marketting-4.png" />
-    </div>
-    <div class="listimg-content">
-      Promoting products, services on Flyers, Brochures
-    </div>
-  </div>
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img src="/img/marketing-5.png" />
-      <img src="/img/markrtting06.png" />
-    </div>
-    <div class="listimg-content">Promoting services on Sandwich boards</div>
-  </div>
-</div>
-
-    `;
-  });
-});
-*/
 const Freelancer = $(".Freelancer");
 
 Freelancer.on("click", function (e) {
@@ -1502,13 +1312,13 @@ Freelancer.on("click", function (e) {
     <div class="contentnis">
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/qrselector/img/freelan-1.png" />
-      <img src="/qrselector/img/freelan-2.png" />
+      <img src="//qrselector/img/freelan-1.png" />
+      <img src="//qrselector/img/freelan-2.png" />
     </div>
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img class="first-imaeges" src="/qrselector/img/freelan-3.png" />
+      <img class="first-imaeges" src="//qrselector/img/freelan-3.png" />
     </div>
     <div class="listimg-content">
       Promoting products, services on Flyers, Brochures
@@ -1516,8 +1326,8 @@ Freelancer.on("click", function (e) {
   </div>
   <div class="content-first">
     <div class="imgsection-listimgner">
-      <img src="/qrselector/img/freelan-4.png" />
-      <img src="/qrselector/img/freelan-5.png" />
+      <img src="//qrselector/img/freelan-4.png" />
+      <img src="//qrselector/img/freelan-5.png" />
     </div>
     <div class="listimg-content">Promoting services on Sandwich boards</div>
   </div>
@@ -1526,79 +1336,99 @@ Freelancer.on("click", function (e) {
   console.log(Freelancer);
 });
 
-/*
-const Freelancer = document.querySelectorAll(".Freelancer");
+const swapIcon = document.querySelectorAll(".swap-icon");
 
-Freelancer.forEach(function (item) {
-  item.addEventListener("click", function (e) {
-    imangecontent.style.display =
-      imangecontent.style.display === "block" ? "block" : "block";
-    e.stopPropagation();
+swapIcon.forEach(function (item) {
+  item.addEventListener("click", function () {
+    boaDowload.forEach(function (item) {
+      item.classList.add("active");
+    });
+    const gradiention = document.getElementById("gradiention");
+    const aceImg = document.querySelector(".ace-images");
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+    if (!aceImg) return;
+    if (imageCheckbox && imageCheckbox.checked) {
+      const currentSrc = aceImg.getAttribute("src");
+      if (currentSrc.includes("3mauso02.png")) {
+        aceImg.setAttribute("src", "/qrselector/img/3mauso01.png");
+      } else {
+        aceImg.setAttribute("src", "/qrselector/img/3mauso02.png");
+      }
+    } else if (colorRadio && colorRadio.checked) {
+      const currentSrc = aceImg.getAttribute("src");
+      if (currentSrc.includes("prsection1.png")) {
+        aceImg.setAttribute("src", "/qrselector/img/prsection2.png");
+      } else {
+        aceImg.setAttribute("src", "/qrselector/img/prsection1.png");
+      }
+    } else if (gradiention === "Linear gradient") {
+      aceImg.src = "/qrselector/img/b01.png";
+    }
+    const color1 = document.getElementById("color1");
+    const color2 = document.getElementById("color2");
+    const text1 = document.getElementById("colorText1");
+    const text2 = document.getElementById("colorText2");
+
+    const tempColor = color1.value;
+    const tempText = text1.value;
+
+    color1.value = color2.value;
+    color2.value = tempColor;
+
+    text1.value = text2.value;
+    text2.value = tempText;
   });
 });
-Freelancer.forEach((item) => {
-  item.addEventListener("click", () => {
-    imangecontent.innerHTML = `
-<div class="contentnis">
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img src="/img/freelan-1.png" />
-      <img src="/img/freelan-2.png" />
-    </div>
-  </div>
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img class="first-imaeges" src="/img/freelan-3.png" />
-    </div>
-    <div class="listimg-content">
-      Promoting products, services on Flyers, Brochures
-    </div>
-  </div>
-  <div class="content-first">
-    <div class="imgsection-listimgner">
-      <img src="/img/freelan-4.png" />
-      <img src="/img/freelan-5.png" />
-    </div>
-    <div class="listimg-content">Promoting services on Sandwich boards</div>
-  </div>
-</div>
-    `;
-  });
-});
-*/
+console.log(swapIcon);
 
-function swapColors() {
-  const color1 = document.getElementById("color1");
-  const color2 = document.getElementById("color2");
-  const text1 = document.getElementById("colorText1");
-  const text2 = document.getElementById("colorText2");
+window.addEventListener("DOMContentLoaded", function () {
+  const singleColorRadio = document.getElementById("singleColorRadio");
+  const gradientColorRadio = document.getElementById("gradientColorRadio");
+  const gradientControls = document.getElementById("gradientControls");
+  const customEyeCheckbox = document.getElementById("customEyeCheckbox");
+  const eyeColorSection = document.getElementById("eyeColorSection");
 
-  const tempColor = color1.value;
-  color1.value = color2.value;
-  color2.value = tempColor;
+  if (singleColorRadio) singleColorRadio.checked = true;
+  if (gradientColorRadio) gradientColorRadio.checked = false;
+  if (customEyeCheckbox) customEyeCheckbox.checked = false;
+  if (gradientControls) gradientControls.classList.add("hidden");
+  if (eyeColorSection) eyeColorSection.classList.add("hidden");
 
-  const tempText = text1.value;
-  text1.value = text2.value;
-  text2.value = tempText;
-}
-console.log(swapColors());
+  if (singleColorRadio) {
+    singleColorRadio.addEventListener("click", () => {
+      if (gradientControls) gradientControls.classList.add("hidden");
+      if (customEyeCheckbox && !customEyeCheckbox.checked && eyeColorSection) {
+        eyeColorSection.classList.add("hidden");
+      }
+      console.log(singleColorRadio);
+    });
+  }
 
-document.getElementById("singleColorRadio").addEventListener("click", () => {
-  document.getElementById("gradientControls").classList.add("hidden");
-});
+  if (gradientColorRadio) {
+    gradientColorRadio.addEventListener("click", () => {
+      if (gradientControls) gradientControls.classList.remove("hidden");
+      if (customEyeCheckbox && !customEyeCheckbox.checked && eyeColorSection) {
+        eyeColorSection.classList.add("hidden");
+      }
+      console.log(gradientColorRadio);
+    });
+  }
 
-document.getElementById("gradientColorRadio").addEventListener("click", () => {
-  document.getElementById("gradientControls").classList.remove("hidden");
-});
-
-document.getElementById("customEyeCheckbox").addEventListener("change", (e) => {
-  const eyeSection = document.getElementById("eyeColorSection");
-  if (e.target.checked) {
-    eyeSection.classList.remove("hidden");
-  } else {
-    eyeSection.classList.add("hidden");
+  if (customEyeCheckbox) {
+    customEyeCheckbox.addEventListener("change", (e) => {
+      if (eyeColorSection) {
+        if (e.target.checked) {
+          eyeColorSection.classList.remove("hidden");
+        } else {
+          eyeColorSection.classList.add("hidden");
+        }
+      }
+      console.log(customEyeCheckbox);
+    });
   }
 });
+
 const selected = document.getElementById("selectedOption");
 const options = document.getElementById("optionsList");
 const dropdown = document.getElementById("gradientDropdown");
@@ -1625,9 +1455,264 @@ document.addEventListener("click", (e) => {
     options.style.display = "none";
   }
 });
+/*
+document.getElementById("onetimePng").addEventListener("click", function () {
+  const img = document.querySelector(".ace-images");
+  if (img && img.src) {
+    const link = document.createElement("a");
+    link.href = img.src;
+    link.download = "downloaded-image.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  const message = document.getElementById("downloadMessage");
+  message.style.display = "block";
+  setTimeout(() => {
+    message.style.display = "none";
+  }, 3000);
+});
+*/
+const downloadButtons = document.querySelectorAll(".onetimePng");
+
+downloadButtons.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const img = document.querySelector(".ace-images");
+    if (img && img.src) {
+      const link = document.createElement("a");
+      link.href = img.src;
+      const extension = btn.innerText.trim().toLowerCase();
+      link.download = `downloaded-image.${extension}`;
+
+      document.body.appendChild(link);
+      link.click();
+      const message = document.getElementById("downloadMessage");
+      message.style.display = "block";
+      setTimeout(() => {
+        message.style.display = "none";
+      }, 3000);
+    }
+  });
+});
 
 document
   .getElementById("openFileTrigger")
   .addEventListener("click", function () {
     document.getElementById("fileInput").click();
   });
+
+const designimage1 = document.getElementById("designimage1");
+const designimage2 = document.getElementById("designimage2");
+const designimage3 = document.getElementById("designimage3");
+const imagesion5 = document.getElementById("imagesion5");
+const aceImg = document.querySelector(".ace-images");
+const boaDowload = document.querySelectorAll(".boa-Dowload");
+const imagesion4 = document.getElementById("imagesion4");
+boaDowload.forEach(function (item) {
+  item.addEventListener("click", function () {
+    if (item.classList.contains("active")) {
+      const downloadOptions = item.querySelector(".download-options");
+      if (downloadOptions) {
+        const isVisible = downloadOptions.style.display === "block";
+        downloadOptions.style.display = isVisible ? "none" : "block";
+      }
+    }
+  });
+  const paragraphs = item.querySelectorAll(".download-options p");
+  paragraphs.forEach(function (p) {
+    p.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+  });
+});
+
+imagesion4.addEventListener("click", function () {
+  boaDowload.forEach(function (item) {
+    item.classList.add("active");
+  });
+  designimage1.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/a01.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/prsection2.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/1a1.png";
+      } else {
+        aceImg.src = "/qrselector/img/body1.png";
+      }
+    }
+  });
+  designimage2.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/a02.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/1a2.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/greenbody2.png";
+      } else {
+        aceImg.src = "/qrselector/img/body2.png";
+      }
+    }
+  });
+  designimage3.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/a03.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/greenbody3.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/1a3.png";
+      } else {
+        aceImg.src = "/qrselector/img/body3.png";
+      }
+    }
+  });
+});
+imagesion5.addEventListener("click", function () {
+  boaDowload.forEach(function (item) {
+    item.classList.add("active");
+  });
+  designimage1.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/b01.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/greenbody4.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/c01.png";
+      } else {
+        aceImg.src = "/qrselector/img/body43.png";
+      }
+    }
+  });
+  designimage2.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/b02.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/greenbody5.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/c02.png";
+      } else {
+        aceImg.src = "/qrselector/img/body5.png";
+      }
+    }
+  });
+  designimage3.addEventListener("click", function () {
+    const colorRadio = document.getElementById("gradientColorRadio");
+    const aceImg = document.querySelector(".ace-images");
+    const imageCheckbox = document.getElementById("customEyeCheckbox");
+
+    if (aceImg) {
+      if (
+        colorRadio &&
+        colorRadio.checked &&
+        imageCheckbox &&
+        imageCheckbox.checked
+      ) {
+        aceImg.src = "/qrselector/img/b03.png";
+      } else if (colorRadio && colorRadio.checked) {
+        aceImg.src = "/qrselector/img/greenbody6.png";
+      } else if (imageCheckbox && imageCheckbox.checked) {
+        aceImg.src = "/qrselector/img/c03.png";
+      } else {
+        aceImg.src = "/qrselector/img/body6.png";
+      }
+    }
+  });
+});
+
+/* xoay trai phỉa lên xuống của ảnh */
+
+const overtripper = document.getElementById("overlaydiver");
+const overdoimoiupdowwn = document.getElementById("overdoimoiupdowwn");
+const overdoileftright = document.getElementById("overdoileftright");
+const overdoixoayright = document.getElementById("overdoixoayright");
+const overdoimoitanng = document.getElementById("overdoimoitanng");
+const overdoimoigiam = document.getElementById("overdoimoigiam");
+
+let flipped = false;
+
+overdoimoiupdowwn.addEventListener("click", function () {
+  flipped = !flipped;
+  overtripper.style.transform = flipped ? "scaleY(-1)" : "scaleY(1)";
+  overtripper.style.transition = "transform 0.3s ease";
+});
+
+overdoileftright.addEventListener("click", function () {
+  flipped = !flipped;
+  overtripper.style.transform = flipped ? "scaleX(-1)" : "scaleX(1)";
+  overtripper.style.transition = "transform 0.3s ease";
+});
+let angle = 0;
+overdoixoayright.addEventListener("click", function () {
+  angle += 90;
+  overtripper.style.transform = `rotate(${angle}deg)`;
+  overtripper.style.transition = "transform 0.3s ease";
+});
+overdoixoaylefft.addEventListener("click", function () {
+  angle -= 90;
+  overtripper.style.transform = `rotate(${angle}deg)`;
+  overtripper.style.transform = "transform o.3s ease";
+});
+
+let scale = 1;
+overdoimoitanng.addEventListener("click", function () {
+  scale += 0.2;
+  overtripper.style.transform = `scale(${scale})`;
+  overtripper.style.transition = "transform 0.3s ease";
+});
+overtripper.style.transform = `scale(${scale})`;
+overdoimoigiam.addEventListener("click", function () {
+  if (scale > 1) {
+    scale -= 0.2;
+    if (scale < 1) scale = 1;
+    overtripper.style.transform = `scale(${scale})`;
+    overtripper.style.transition = "transform 0.3s ease";
+  }
+});
