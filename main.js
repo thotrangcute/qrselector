@@ -109,7 +109,7 @@ function attachInputEvent() {
 
     if (!value) {
       if (errorDiv) errorDiv.textContent = "Please enter your URL!";
-      if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+      if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
     } else {
       if (errorDiv) errorDiv.textContent = "";
 
@@ -171,7 +171,7 @@ aechoaquyen.forEach((item) => {
 
         if (!value) {
           if (errorDiv) errorDiv.textContent = "Please enter your FACEBOOK!";
-          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
         } else {
           if (errorDiv) errorDiv.textContent = "";
 
@@ -783,7 +783,7 @@ aceoneVcard.forEach((item) => {
         if (!value) {
           if (errorDiv) errorDiv.textContent = "Please enter your!";
           if (errorSection) errorSection.textContent = "Please enter your!";
-          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
           return;
         }
 
@@ -791,7 +791,7 @@ aceoneVcard.forEach((item) => {
           if (errorDiv) errorDiv.textContent = "Please enter a valid email!";
           if (errorSection)
             errorSection.textContent = "Please enter a valid email!";
-          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
           return;
         }
 
@@ -866,7 +866,7 @@ aceoneggreview.forEach((item) => {
         if (!value) {
           if (errorDiv)
             errorDiv.textContent = "Please enter your google review!";
-          if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+          if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
         } else {
           if (errorDiv) errorDiv.textContent = "";
 
@@ -1144,7 +1144,7 @@ const saboWrite = document.querySelectorAll(".sabo-write");
 saboWrite.forEach(function (element) {
   element.addEventListener("click", function () {
     const aceImg = document.querySelector(".ace-images");
-    if (aceImg) aceImg.src = "/qrselector/img/qrto.png";
+    if (aceImg) aceImg.src = "/qrselector/img/qr to.png";
   });
 });
 /* Frequently Asked Questions */
