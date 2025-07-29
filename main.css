@@ -217,6 +217,23 @@ input:focus {
   color: #fff;
   border: 2px solid #797878;
 }
+.boa-QRcode.active {
+  height: 40px;
+  width: 120px;
+  text-align: center;
+  align-items: center;
+  border-radius: 8px;
+  color: #a99d9d;
+  border: 2px solid #d5cece;
+  cursor: not-allowed;
+  opacity: 0.5;
+  padding: 7px 0;
+  background-color: #d5cece;
+}
+.boa-QRcode.active:hover {
+  color: #a99d9d;
+  background: #d5cece !important;
+}
 .boa-QRcode:hover {
   background: orange;
   color: black;
@@ -256,7 +273,7 @@ input:focus {
   opacity: 1;
   border: 2px solid black;
 }
-.boa-Dowload:hover {
+.boa-Dowload.active:hover {
   background: black;
   color: #fff;
 }

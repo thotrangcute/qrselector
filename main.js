@@ -1716,3 +1716,11 @@ overdoimoigiam.addEventListener("click", function () {
     overtripper.style.transition = "transform 0.3s ease";
   }
 });
+const boaQRcode = document.querySelectorAll(".boa-QRcode");
+
+boaQRcode.forEach((item) => {
+  item.addEventListener("click", function () {
+    boaQRcode.forEach((el) => el.classList.remove("active"));
+    this.classList.add("active");
+  });
+});
