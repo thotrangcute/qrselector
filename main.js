@@ -85,7 +85,7 @@ function attachInputEvent() {
     const errorDiv = $(this).siblings(".error-input");
     if (!value) {
       errorDiv.text("please enter your url");
-      aceImg.attr("src", "/qrselector/img/qrto.png");
+      aceImg.attr("src", "/qrselector/img/qr to.png");
     } else {
       errorDiv.text("");
       if (aceImg.length) {
@@ -233,7 +233,7 @@ aechoaquyen.click(function () {
     const errorDiv = $(this).siblings(".error-input");
     if (!value) {
       errorDiv.text("please enter your FACEBOOK!");
-      aecImg.attr("src", "qrselector/img/qrto.png");
+      aecImg.attr("src", "qrselector/img/qr to.png");
     } else {
       errorDiv.text("");
       if (aceImg.length) {
@@ -1061,12 +1061,12 @@ aceoneVcard.click(function () {
     if (!value) {
       errorDiv.text("please enter your");
       errorSection.text("Please enter your!");
-      aceImg.attr("src", "qrselector/img/qrto.png");
+      aceImg.attr("src", "qrselector/img/qr to.png");
     }
     if (isEmailField && !isEmailValid) {
       if (errorDiv.length) errorDiv.text("Please enter a valid email!");
       if (errorSection.length) errorSection.text("Please enter a valid email!");
-      if (aceImg.length) aceImg.attr("src", "qrselector/img/qrto.png");
+      if (aceImg.length) aceImg.attr("src", "qrselector/img/qr to.png");
       return;
     }
 
@@ -1566,7 +1566,7 @@ saboWrite.forEach(function (element) {
 const saboWrite = $(".sabo-write");
 saboWrite.click(function () {
   const aceImg = $(".ace-images");
-  aceImg.attr("src", "qrselector/img/qrto.png");
+  aceImg.attr("src", "qrselector/img/qr to.png");
 });
 
 /* Frequently Asked Questions */
