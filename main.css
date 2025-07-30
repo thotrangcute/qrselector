@@ -155,8 +155,11 @@ p {
   align-items: center;
 }
 input:focus {
-  outline: none;
+  outline: 1px solid #1f1e1e;
   border: 1px solid #f62369;
+}
+.slider-area input {
+  outline: none;
 }
 .onemore-iconmomen {
   width: 40px;
@@ -407,47 +410,6 @@ input:focus {
   cursor: pointer;
   user-select: none;
 }
-/*
-.select-gradient {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.custom-select {
-  width: 100%;
-  padding: 10px 40px 10px 15px;
-  border: 2px solid #f62369;
-  border-radius: 8px;
-  background-color: white;
-  color: #f62369;
-  font-weight: 600;
-  font-size: 15px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-}
-
-select.select-gradient option {
-  background-color: black !important;
-  color: white;
-  padding: 10px;
-}
-
-select.select-gradient option:checked {
-  background-color: #f62369 !important;
-  color: white;
-}
-
-select.select-gradient option:hover {
-  background-color: #f62369 !important;
-}
-option:hover {
-  background-color: #f62369 !important;
-}
-  */
-
 .custom-dropdown {
   position: relative;
   width: 140px;
@@ -1092,7 +1054,15 @@ input:focus {
   padding: 5% 4%;
   letter-spacing: 2px;
 }
-
+.stepone {
+  color: #696565;
+}
+.stepone::before {
+  content: "\2022";
+  font-size: 20px;
+  color: black;
+  margin-right: 5px;
+}
 .contentonesection-write,
 .contentonesection-reacter {
   cursor: pointer;
